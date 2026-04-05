@@ -1,117 +1,84 @@
-# 📊 Sector Scoring
+# Sector Sentiment Analyser
 
-A simple project to score and rank market sectors using basic indicators and signals.
-
----
-
-## 🚀 Overview
-
-This project analyzes different sectors in the market and assigns them a score based on their performance.
-
-The main goal is to:
-- Find strong vs weak sectors
-- Track momentum and trends
-- Help with trading or investment decisions
+A single HTML file. Open in browser. Done.
 
 ---
 
-## 🧠 How It Works
+## What it does
 
-The pipeline is straightforward:
-
-1. **Load Data**
-   - Sector or market data is collected and cleaned
-
-2. **Generate Signals**
-   - Indicators are calculated such as:
-     - Returns (momentum)
-     - Volatility
-     - Relative performance
-
-3. **Score Calculation**
-   - Signals are combined into a single score per sector
-
-4. **Ranking**
-   - Sectors are ranked from best to worst
+- Fetches live VIX from Yahoo Finance
+- Pulls headlines from Yahoo Finance, MarketWatch, and WSJ RSS feeds
+- Scores 8 market sectors (-5 to +5) using Llama 3.3 70B via Groq
+- Shows trend, score bar, and one-line driver per sector
 
 ---
 
-## 📁 Project Structure
+## Setup
 
-sector-scoring/
-│
-├── data/            # Raw and processed data  
-├── notebooks/       # Analysis and experiments  
-├── src/             # Core logic  
-│   ├── signals.py   # Signal calculations  
-│   ├── scoring.py   # Score logic  
-│   └── utils.py     # Helper functions  
-│
-├── outputs/         # Results (scores, rankings)  
-├── requirements.txt  
-└── README.md  
+**Step 1 — Get a free Groq API key**
 
----
+Go to https://console.groq.com
+Sign up → API Keys → Create key
+Copy the key (starts with gsk_)
 
-## ⚙️ Installation
+**Step 2 — Open the file**
 
-git clone https://github.com/preetx77/sector-scoring.git  
-cd sector-scoring  
+Just open sector-sentiment.html in any browser.
+No server. No install. No dependencies.
 
-python -m venv venv  
-source venv/bin/activate   (Windows: venv\Scripts\activate)  
+**Step 3 — Run**
 
-pip install -r requirements.txt  
+Paste your Groq key into the input field
+Press Enter or click Run analysis
+Wait 10–15 seconds for results
 
 ---
 
-## ▶️ Usage
+## How scores work
 
-Run the main script:
+| Score | Meaning |
+|-------|---------|
+| +3 to +5 | strongly bullish |
+| +1 to +3 | mildly bullish |
+| -1 to +1 | neutral |
+| -3 to -1 | mildly bearish |
+| -5 to -3 | strongly bearish |
 
-python main.py  
-
-Or use notebooks:
-
-jupyter notebook  
-
----
-
-## 📊 Output
-
-The project generates:
-- Sector scores  
-- Rankings  
-- Performance over time  
-
-Example:
-
-Sector   | Score | Rank  
----------|-------|------  
-IT       | 0.80  | 1  
-Pharma   | 0.72  | 2  
-Banks    | 0.50  | 5  
+VIX calibrates the scores:
+- Below 15 → calm market
+- 15 to 20 → low volatility
+- 20 to 30 → elevated fear
+- Above 30 → high fear / panic
 
 ---
 
-## 🧩 Use Cases
+## Sectors covered
 
-- Sector rotation strategies  
-- Portfolio allocation  
-- Market analysis  
-- Quant research  
+Technology · Energy · Financials · Healthcare
+Consumer · Industrials · Materials · Defence
 
 ---
 
-## 🔧 Future Improvements
+## Data sources
 
-- Add more indicators  
-- Improve scoring model  
-- Add backtesting  
-- Build dashboard  
+| Data | Source | Cost |
+|------|--------|------|
+| VIX | Yahoo Finance | Free, no key |
+| Headlines | Yahoo / MarketWatch / WSJ RSS | Free, no key |
+| AI scoring | Groq (Llama 3.3 70B) | Free tier |
 
 ---
 
-## 📜 License
+## Groq free tier limits
 
-MIT License
+14,400 requests per day on llama-3.3-70b-versatile
+More than enough for personal use
+
+---
+
+## Notes
+
+- Your API key never leaves your browser tab
+- Not financial advice
+- RSS feeds may occasionally be slow or unavailable
+- If scoring fails, check your Groq key is valid and has quota
